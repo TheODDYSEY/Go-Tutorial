@@ -15,8 +15,38 @@ func main() {
 	var denominator int = 2
 	// call the function intDivision with the variables numerator and denominator as arguments
 	var result, remainder ,err = intDivision(numerator, denominator)
-	if err != nil {}
-	fmt.Printf("The result of the integer division is %v with remainder %v", result, remainder)
+
+	// if else statement to check if there is an error
+
+	// if err != nil {
+	// 	fmt.Println(err.Error())
+	// }else if remainder == 0 {
+	// 	fmt.Printf("The result of the integer division is %v", result)
+	// }else{
+	// 	fmt.Printf("The result of the integer division is %v with remainder %v", result, remainder)
+	// }
+
+	// switch statement to check if there is an error
+	// no need for writing the block keyword
+	switch {
+		case err != nil:
+			fmt.Println(err.Error())
+		case remainder == 0:
+			fmt.Printf("The result of the integer division is %v", result)
+		default:
+			fmt.Printf("The result of the integer division is %v with remainder %v\n", result, remainder)		
+	}
+
+	// switch statement to check the remainder
+	switch remainder{
+		case 0:
+			fmt.Printf("The division was exact\n")	
+		case 1,2:
+			fmt.Printf("The division was close\n")
+		default:
+			fmt.Printf("The division was not close\n")		
+	}
+
 
 }
 
