@@ -69,6 +69,38 @@ func main(){
 	// MAPS ARE DYNAMICALLY SIZED
 	// MAPS ARE REFERENCE TYPE
 	// MAPS ARE NOT INDEXABLE
-	
 
-} 
+	var myMap map[string]uint8 = make(map[string]uint8)
+	fmt.Println(myMap)
+
+	var myMap2 = map[string]uint8{"Adam":23,"Eve":22}
+	fmt.Println(myMap2["Adam"])
+	fmt.Println(myMap2["Jason"])
+
+	// check if key exists
+	// var age,oK = myMap2["Adam"]
+	// if oK{
+	// 	fmt.Printf("The age is %v ",age)
+	// }else{
+	// 	fmt.Println("Adam does not exists")
+	// }
+
+	// chec and delete key
+	// delete(myMap2,"Adam")
+	// fmt.Println(myMap2)
+
+
+	// iteration using range
+	for name,age := range myMap2{
+		fmt.Printf("Name : %v  age : %v\n",name ,age)
+	};
+
+	// iteration over array and slice
+	for i ,v  := range intArr{
+		fmt.Printf("Index : %v  Value : %v\n",i,v)
+	}
+
+	for i := 0; i < 10; i++ {
+        fmt.Println(i)
+    }
+}
