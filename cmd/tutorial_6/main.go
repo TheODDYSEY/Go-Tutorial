@@ -33,7 +33,7 @@ type engine interface{
 }
 
 
-func canMakeIt (e gasEngine , miles uint8){
+func canMakeIt (e engine , miles uint8){
 	if miles <=e.milesLeft(){
 		fmt.Printf("You can make it with %v miles left\n",e.milesLeft()-miles)
 	}else{
@@ -43,8 +43,9 @@ func canMakeIt (e gasEngine , miles uint8){
 
 func main (){
 
-	var myEngine gasEngine = gasEngine{ 30 ,10}
-	canMakeIt(myEngine,200)
+	// var myEngine gasEngine = gasEngine{ 30 ,10}
+	var myEngine electricEngine = electricEngine{25,15}
+	canMakeIt(myEngine,50)
 
 	// anonymous struct
 	// var myEngine2 = struct {
