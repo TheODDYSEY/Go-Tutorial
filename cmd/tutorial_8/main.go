@@ -11,7 +11,7 @@ import  (
 )
 
 // mutual exclusion added 
-var m = sync.Mutex{}
+var m = sync.RWMutex{}
 
 // added wait groups 
 var wg = sync.WaitGroup{}
@@ -42,18 +42,20 @@ func dbCall(i int){
 	// removed randomness
 	var delay float32 = 2000
 	time.Sleep(time.Duration(delay)*time.Millisecond)
-	fmt.Println("The result from the database is :" ,dbData[i])
-
-	// checks if a loc has been set by a go routine
-	// if exits it will wait until released and then set lock itself
-	m.Lock()
-
-	// append the value we get from our fake database
-	results =append(results,dbData[i])
-
-	m.Unlock()
-
-	// decrements the counter
+	save(dbData[i])
+	log()
 	wg.Done()
 
+}
+
+func save (result string){
+	m.Lock()
+	results = append(results, result)
+	m.Unlock()
+}
+
+func log(){
+	m.RLock()
+	fmt.Printf("\nThe current results are: %v",results)
+	m.RUnlock()
 }
