@@ -10,9 +10,6 @@ import  (
 	"sync"
 )
 
-// mutual exclusion added 
-var m = sync.RWMutex{}
-
 // added wait groups 
 var wg = sync.WaitGroup{}
 
@@ -25,10 +22,10 @@ var results = []string{}
 // iterate/ call items in database and will take 5 seconds each 
 func main(){
 	t0 := time.Now()
-	for i:=0; i<len(dbData); i++{
+	for i:=0; i<1000; i++{
 		// counts 
 		wg.Add(1)
-		go dbCall(i)
+		go count()
 	} 
 	// wait for counter o go back to zero and then the code will execute 
 	wg.Wait()
@@ -37,25 +34,21 @@ func main(){
 
 }
 
-func dbCall(i int){
-	// simulate DB call delay
-	// removed randomness
-	var delay float32 = 2000
-	time.Sleep(time.Duration(delay)*time.Millisecond)
-	save(dbData[i])
-	log()
+// func dbCall(i int){
+// 	// simulate DB call delay
+// 	// removed randomness
+// 	var delay float32 = 2000
+// 	time.Sleep(time.Duration(delay)*time.Millisecond)
+// 	wg.Done()
+
+// }
+
+func count(){
+	var res int
+	for i:=0; i<1000; i++{
+		// counts 
+		res+=1
+	} 
 	wg.Done()
 
-}
-
-func save (result string){
-	m.Lock()
-	results = append(results, result)
-	m.Unlock()
-}
-
-func log(){
-	m.RLock()
-	fmt.Printf("\nThe current results are: %v",results)
-	m.RUnlock()
 }
