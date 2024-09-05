@@ -5,25 +5,53 @@
 
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"math/rand"
+	"time"
+)
 
-func main(){
-	// create the channel 
-	var c = make(chan int)
+var MAX_CHICKEN_PRICE float32 = 5
+var MAX_TOFU_PRICE float32 = 3
 
-	// start the go routine
-	go process(c)
-	
-	for i:= range c{
-		fmt.Println(i)
+func main() {
+	var chickenChannel = make(chan string)
+	var tofuChannel = make(chan string)
+	var websites = []string{"walmart.com", "costco.com", "wholefoods.com"}
+	for i := range websites {
+		go checkChickenPrices(websites[i], chickenChannel)
+		go checkTofuPrices(websites[i], tofuChannel)
+	}
+	sendMessage(chickenChannel, tofuChannel)
+}
+func checkTofuPrices(website string, chickenChannel chan string) {
+	for {
+		time.Sleep(time.Second * 1)
+		var tofu_price = rand.Float32() * 20
+		if tofu_price <= MAX_CHICKEN_PRICE {
+			chickenChannel <- website
+			break
+		}
+	}
+}
+func checkChickenPrices(website string, chickenChannel chan string) {
+	for {
+		time.Sleep(time.Second * 1)
+		var chickenPrice = rand.Float32() * 20
+		if chickenPrice <= MAX_CHICKEN_PRICE {
+			chickenChannel <- website
+			break
+		}
 	}
 }
 
-func process(c chan int){
-	defer close(c)
-	for i:=0 ; i<5 ; i++{
-		c<-i
-	} 
-	
-}
+func sendMessage(chickenChannel chan string, tofuChannel chan string) {
+	select {
+	case website := <-chickenChannel:
+		fmt.Printf("\nFound a deal on chicken at %s", website)
+	case website := <-tofuChannel:
+		fmt.Printf("\nFound a deal on tofu at %s",website)	
 
+	}
+
+}
