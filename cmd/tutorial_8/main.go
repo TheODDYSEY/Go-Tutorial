@@ -10,8 +10,12 @@ import  (
 	"sync"
 )
 
+// mutual exclusion added 
+var m = sync.Mutex{}
+
 // added wait groups 
 var wg = sync.WaitGroup{}
+
 // Simulating a database 
 var dbData = []string{"id1","id2","id3","id4","id5"}
 
@@ -40,8 +44,14 @@ func dbCall(i int){
 	time.Sleep(time.Duration(delay)*time.Millisecond)
 	fmt.Println("The result from the database is :" ,dbData[i])
 
+	// checks if a loc has been set by a go routine
+	// if exits it will wait until released and then set lock itself
+	m.Lock()
+
 	// append the value we get from our fake database
 	results =append(results,dbData[i])
+
+	m.Unlock()
 
 	// decrements the counter
 	wg.Done()
