@@ -1,3 +1,3 @@
-module github.com/TheODDYSEY/Go-Tutorial.git
+module github.com/avukadin/goapi
 
 go 1.23.0
