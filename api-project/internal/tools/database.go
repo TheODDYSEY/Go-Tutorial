@@ -1,36 +1,34 @@
-package tools 
+package tools
 
 import (
-	log "github.com/sirupsen/logrus"
+    log "github.com/sirupsen/logrus"
 )
 
 // Database collections
 type LoginDetails struct {
-	AuthToken string
-	Username string
-
+    AuthToken string
+    Username  string
 }
 
 type CoinDetails struct {
-	Coins int64
-	Username string 
+    Coins    int64
+    Username string
 }
 
-type DatabaseInterface interface{
-	GetUserLoginDetails(username string ) *LoginDetails
-	getUserCoins(username string) *CoinDetails
-	SetupDatabase() error 
-
+type DatabaseInterface interface {
+    GetUserLoginDetails(username string) *LoginDetails
+    GetUserCoins(username string) *CoinDetails
+    SetupDatabase() error
 }
 
-func NewDatabase() (*DatabaseInterface, error){
-	var database DatabaseInterface = &mockDB{}
+func NewDatabase() (*DatabaseInterface, error) {
+    var database DatabaseInterface = &mockDB{}
 
-	var err error = database.SetupDatabase()
-	if err != nil {
-		log.Error(err)
-		return nil, err
-	}
+    var err error = database.SetupDatabase()
+    if err != nil {
+        log.Error(err)
+        return nil, err
+    }
 
-	return &database, nil
+    return &database, nil
 }
