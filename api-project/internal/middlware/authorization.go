@@ -4,10 +4,9 @@ import (
 	"errors"
 	"net/http"
 
-	"go-tutorial/api"
-	"go-tutorial/internal/tools"
+	"api/api"
+	"api/internal/tools"
 
-	"github.com/avukadin/goapi/api"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -29,11 +28,11 @@ func Authorization(next http.Handler) http.Handler{
 		var database * tools.DatabaseInterface
 		database, err = tools.NewDatabase()
 		if err != nil {
-			api.InternalErrorHandler
+			api.InternalErrorHandler(w)
 			return
 		}
 
-		var loginDetails * tools.loginDetails
+		var loginDetails * tools.LoginDetails
 		loginDetails = (*database).GetUserLoginDetails(username)
 
 		if (loginDetails == nil || (token != (*loginDetails).AuthToken)){
