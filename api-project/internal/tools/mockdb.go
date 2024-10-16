@@ -4,6 +4,7 @@ import (
     "time"
 )
 
+
 type mockDB struct{}
 
 var mockLoginDetails = map[string]LoginDetails{
