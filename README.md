@@ -1,4 +1,5 @@
 # Go Tutorial
+![Go Logo](./go.png)
 
 ## Table of Contents
 
